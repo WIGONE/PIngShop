@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>邮箱登录</title>
+    <!-- 初始化css -->
+    <link rel="stylesheet" href="css/base.css">
+    <!-- register css文件 -->
+    <link rel="stylesheet" href="css/login.css">
+    
+</head>
+
+<body>
+    <div class="w">
+        <!-- header -->
+        <div class="header">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo.png" alt="">
+                </a>
+            </div>
+        </div>
+        <!-- registerarea -->
+        <div class="registerarea">
+            <h3> 用户登录
+                <em>
+					我还没有账号，去<a href="register.html">注册</a>
+				</em>
+            </h3>
+            <div class="reg_form">
+
+                <!--  <form  action="index.html" method="post" id="myform">-->
+                <form>
+                    <ul>  
+                    	<p class="h">邮箱登录
+                   		 <button onclick="window.location.href='login.html'" type="button" id="email" class="bu">手机号登录</button>
+                        </p>                  	                 
+                        <li>
+                            <label for="emails">邮箱:</label>
+                            <input type="text" class="inp" id="emails" >
+                            <span class="">	</span>
+                        </li>
+                        <li>
+                            <label >密码:</label>
+                            <input type="password" class="inp" id="pwd">
+                            <span>
+                            </span>
+                        </li>
+                        <li class="agree">
+
+                            <input type="checkbox" id="read">同意协议并登录
+							<a href="xieyi.html">《品优购用户协议》</a></li>
+                        </li>
+                        <li>                          
+                                <input type="button" class="over"  onclick="checkLogin()" value="登陆">
+                           
+                        </li>
+                    </ul>
+                </form>
+
+            </div>
+        </div>
+        <div class="footer">
+            <p class="links">
+                关于我们 | 联系我们 | 联系客服 | 商家入驻 | 营销中心 | 手机品优购 | 友情链接 | 销售联盟 | 品优购社区 | 品优购公益 | English Site | Contact U
+            </p>
+
+            <p class="copyright">
+                地址：北京市昌平区建材城西路金燕龙办公楼一层 邮编：100096 电话：400-618-4000 传真：010-82935100 邮箱: zhanghj+itcast.cn <br> 京ICP备08001421号京公网安备110108007702
+            </p>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+
+	
+	<script>
+	
+	
+		//登录函数
+		function checkLogin(){
+			//获取界面参数			
+			let amail = $("#emails").val().trim();
+			let pwd = $("#pwd").val().trim();
+			
+			//TODO 正则表达式	
+			
+			if(amail == "" || pwd == ""){
+				alert("邮箱或密码不能为空！")
+			}
+	 	    if($("#read")[0].checked==true){    
+			//发送登录请求			
+			$.post("../user/loginEmail",{ amail, pwd},data=>{
+				if(data == 200){
+					location.href = "index.html";
+					return;
+				}
+				if(data == 500){
+					alert("邮箱或密码错误，请稍后再试！！！")
+					return;
+				}
+				$("#myform")[0].reset();//重置表单数据
+				alert("登录失败，请稍后再试！！！")
+			})
+	 	   }else{
+		        alert("请确认用户协议");
+		   }    
+		}
+	</script>
+</body>
+
+</html>

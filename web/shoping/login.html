@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>手机号登录</title>
+    <!-- 初始化css -->
+    <link rel="stylesheet" href="css/base.css">
+    <!-- register css文件 -->
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/vue.js"></script>
+
+    <style>
+
+        #xyhz {
+            background-color: #FEDE4F;
+
+        }
+
+        #close {
+            position: absolute;
+            top: 225px;
+            right: 461px;
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+<div class="w">
+    <!-- header -->
+    <div class="header">
+        <div class="logo">
+            <a href="index.html"> <img src="img/logo.png" alt="">
+            </a>
+        </div>
+    </div>
+    <!-- registerarea -->
+    <div class="registerarea">
+        <h3>
+            用户登录 <em> 我还没有账号，去<a href="register.html">注册</a>
+        </em>
+        </h3>
+
+        <div class="reg_form">
+            <div id="xyhz" v-show="show">
+                <h1>用户协议<input type="button" value="关闭" class="over" @click=" closeclick" id="close"></h1>
+
+                <p>使用账户
+                    您必须承诺和保证：
+                    您使用本产品的行为必须合法
+                    本产品将会依据本协议“修改和终止”的规定保留或终止您的账户。
+                    您必须承诺对您的登录信息保密、不被其他人获取与使用，并且对
+                    您在本账户下的所有行为负责。您必须将任何有可能触犯法律的、
+                    未授权使用或怀疑为未授权使用的行为在第一时间通知本产品。本
+                    产品不对您因未能遵守上述要求而造成的损失承担法律责任。
+                    终端用户协议许可依据本协议规定，本产品将授予您以下不可
+                    转让的、非排他的许可：
+                </p>
+                <p></p>
+            </div>
+
+
+            <form id="myform">
+
+                <ul>
+                    <p class="h">
+                        手机号登录
+                        <button onclick="window.location.href='login2.html'"
+                                type="button" id="email" class="bu">邮箱登录
+                        </button>
+                    </p>
+                    <li><label for="tel">手机号:</label> <input type="text"
+                                                                class="inp" id="tel"> <span class=""> </span></li>
+                    <li><label >密码:</label> <input type="password"
+                                                           class="inp" id="pwd"> <span> </span></li>
+                    <li class="agree"><input type="checkbox" id="read">同意协议并登录
+                        <a @click=" xy" id="xy">《品优购用户协议》</a>
+                    <li><input type="button" class="over" onclick="checkLogin()"
+                               value="登陆" id="log"></li>
+                </ul>
+            </form>
+
+        </div>
+    </div>
+    <div class="footer">
+        <p class="links">关于我们 | 联系我们 | 联系客服 | 商家入驻 | 营销中心 | 手机品优购 | 友情链接
+            | 销售联盟 | 品优购社区 | 品优购公益 | English Site | Contact U</p>
+
+        <p class="copyright">
+            地址：北京市昌平区建材城西路金燕龙办公楼一层 邮编：100096 电话：400-618-4000 传真：010-82935100 邮箱:
+            zhanghj+itcast.cn <br> 京ICP备08001421号京公网安备110108007702
+        </p>
+
+    </div>
+
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+
+    <script type="text/javascript">
+
+        //登录函数
+        function checkLogin() {
+            //获取界面参数
+            let utel = $("#tel").val().trim();
+            let pwd = $("#pwd").val().trim();
+            console.log(utel);
+            console.log(pwd);
+            if (utel == "" || pwd == "") {
+                alert("账号或密码不能为空！")
+            }
+            if ($("#read")[0].checked == true) {
+                //发送登录请求
+                $.post("../user/loginTel", {utel: utel, pwd: pwd}, data => {
+                    if (data == 200) {
+                        console.log("登录成功")
+                        location.href = "index.html";
+                        return;
+                    }
+                    if (data == 500) {
+                        alert("账号或密码错误，请稍后再试！！！")
+                        $("#myform")[0].reset();//重置表单数据
+                        return;
+                    }
+
+
+                })
+            } else {
+                alert("请确认用户协议");
+            }
+        }
+
+        // 用户协议弹窗
+        var yhxy = new Vue({
+            el: ".reg_form",
+            data: ({
+                show: false
+            }),
+            methods: {
+                closeclick: function () {
+                    this.show = false
+                },
+                xy: function () {
+                    this.show = true
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
